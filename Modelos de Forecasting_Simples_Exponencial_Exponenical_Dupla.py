@@ -6,8 +6,8 @@ import scipy.stats as stats
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 # Gerar os primeiros modelos Média Móvel
-Demand = []
-Error = []
+Demand = []  #é necessário entrar com o vetor nulo caso contrario irá dar problemas na função KPI
+Error = []   #é necessário entrar com o vetor nulo caso contrario irá dar problemas na função KPI
 def moving_average(d, extra_periods=1, n=3):
     # Tamanho do período historico
     cols = len(d)
