@@ -106,4 +106,27 @@ print(df_final)
 kpi(df)
 kpi(df2)
 kpi(df3)
-df_final.to_csv('C:\\Users\\nonat\\OneDrive\\Desktop\\Instituto Inteligência de Dados\\Ciencia de Dados\\HNT_Cientista de DAdos\\DataScience\\Resultados\\Forecasting_Otimizado.csv', index=True, decimal = ',')
+#df_final.to_csv('C:\\Users\\nonat\\OneDrive\\Desktop\\Instituto Inteligência de Dados\\Ciencia de Dados\\HNT_Cientista de DAdos\\DataScience\\Resultados\\Forecasting_Otimizado.csv', index=True, decimal = ',')
+# Otimizando o Modelo de Forecasting
+def exp_smooth_opti(d,extra_periods=6):
+    params = [] #contem os diferentes parametros do conjunto de dados
+    KPIs = [] # contem os resultados encontrados para o modelo
+    dfs = [] #contem todos os dataframes retornados pelos diferentes modelos
+    for alpha in [0.05,0.1,0.2,0.3,0.4,0.5,0.6]:
+        df =  simple_exp_smooth(d1, extra_periods=extra_periods, alpha=alpha)
+        params.append(f'simple Smoothing, alpha: {alpha}')
+        dfs.append(df)
+        MAE = df['Error'].abs().mean()
+        KPIs.append(MAE)
+        for beta in [0.05,0.1,0.2,0.3,0.4]:
+            df = dupla_exponencial_suave(d1, extra_periods=extra_periods,alpha=alpha, beta=beta )
+            params.append(f'Double Smoothing, alpha:{alpha},beta: {beta}')
+            dfs.append(df)
+            MAE = df['Error'].abs().mean()
+            KPIs.append(MAE)
+        mini =np.argmin(KPIs)
+        print(f'Solução Otima para {params[mini]} MAE of',round(KPIs[mini],2))
+        return dfs[mini]
+# Minimizando os kpis
+d = [28,19,18,13,19,16,19,18,13,16,16,11,18,15,13,15,13,11,13,10,12]
+df = exp_smooth_opti(d1)
