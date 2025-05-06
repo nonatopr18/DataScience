@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 def simple_exp_smooth(d, extra_periods=1, alpha=0.4):
     # Período Histórico
+    # as colunas que irão receberem os parâmetros tem tamnho igual a demanda inicial do modelo
     cols = len(d)
 # Acrescentado os na aos períodos futuros
     d = np.append(d, [np.nan]*extra_periods)
